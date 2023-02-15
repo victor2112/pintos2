@@ -1,0 +1,28 @@
+#!/bin/bash
+pintos="$(dirname $0)"
+pintos="$(dirname $pintos)"
+
+PINTOS_HOME=`pwd  | sed 's/\/utils//'`
+
+echo $pintos
+
+dockerid=$pintos/.container-id
+
+echo $dockerid
+
+if [ ! -f "$dockerid" ]; then
+    docker create -t -i -v $PINTOS_HOME:/root/pintos \
+    -v $PINTOS_HOME/pintos-docker:/root/host -p 1234:1234 --cidfile $dockerid gbenm/pintos:latest
+fi
+
+dockerid=`cat $dockerid`
+
+if [[ -n "$(docker container list --no-trunc -q | grep $dockerid)" ]];
+then
+    echo 'Executing'
+    docker exec -it -e TEST='test' $dockerid bash
+else
+    echo 'Starting'
+    docker start -i $dockerid
+fi
+

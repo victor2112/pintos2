@@ -1,0 +1,57 @@
+{
+    "version": "0.3.0",
+    "configurations": [
+      {
+        "name": "Threads Start Debugging",
+        "type": "gdb",
+        "request": "attach",
+        "remote": true,
+        "target": ":1234",
+        "env": {
+          "GDBMACROS": "/root/pintos/misc/gdb-macros"
+        },
+        "debugger_args": ["-x", "/root/pintos/misc/gdb-macros"],
+        "executable": "/root/pintos/threads/build/kernel.o",
+        // "cwd": "${workspaceRoot}",
+        "cwd": "/root/pintos/threads/build",
+        "valuesFormatting": "prettyPrinters",//"parseText",
+        "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          }
+        ],
+        "autorun": [
+          "-enable-pretty-printing",
+          "b threads/thread.c:thread_init"
+        ]
+      },
+
+      {
+        "name": "Userprog Start Debugging",
+        "type": "gdb",
+        "request": "attach",
+        "remote": true,
+        "target": ":1234",
+        "env": {
+          "GDBMACROS": "/root/pintos/misc/gdb-macros"
+        },
+        "debugger_args": ["-x", "/root/pintos/misc/gdb-macros"],
+        "executable": "/root/pintos/userprog/build/kernel.o",
+        "cwd": "/root/pintos/userprog/build",
+        "valuesFormatting": "prettyPrinters",
+        "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          }
+        ],
+        "autorun": [
+          "-enable-pretty-printing",
+          "b userprog/process.c:process_execute"
+        ]
+      }
+    ]
+  }
